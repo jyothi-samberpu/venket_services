@@ -1,11 +1,11 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const path = require("path");
-
-// Routers
 const vendorRouter = require("./router/vendorRouter");
-const firmRouter = require("./router/firmRouter");
+const bodyParser = require("body-parser");
+const firmRouter= require("./router/firmRouter");
+const path = require("path");
+// Routers
 const productRouter = require("./router/productRouter");
 
 dotenv.config();
@@ -19,12 +19,16 @@ mongoose
   .then(() => console.log("MongoDb connected successfully"))
   .catch((error) => console.log("MongoDb connection error:", error));
 
+
+
 // Middleware
 app.use(express.json()); // parse JSON
 app.use(express.urlencoded({ extended: true })); // parse URL-encoded data
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // serve uploaded images
 
 // Routes
+
+app.use(bodyParser.json());
 app.use("/vendor", vendorRouter);
 app.use("/firm", firmRouter);
 app.use("/product", productRouter);

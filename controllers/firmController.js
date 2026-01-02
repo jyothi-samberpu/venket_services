@@ -42,7 +42,7 @@ const addFirm = async (req, res) => {
 
     await firm.save();
 
-    res.status(201).json({
+    return res.status(200).json({
       message: "Firm added successfully",
       firm
     });
@@ -53,4 +53,4 @@ const addFirm = async (req, res) => {
   }
 };
 
-module.exports = { addFirm, upload };
+module.exports = { addFirm: [upload.single('image'), addFirm] };

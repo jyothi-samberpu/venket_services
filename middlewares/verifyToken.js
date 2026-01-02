@@ -1,34 +1,34 @@
 const Vendor = require('../models/Vendor');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+const dotEnv = require('dotenv');
 
-dotenv.config();
+dotEnv.config();
+
+
+
 
 const secretKey = process.env.WHATISYOURWORK;
 
 const verifyToken = async (req, res, next) => {
   const token = req.headers.token;
-
   if (!token) {
-    return res.status(401).json({ error: "Token is required" });
+    return res.status(401).json({ message: 'Access Denied: No Token Provided' });
   }
-
-  try {
+  try{
     const decoded = jwt.verify(token, secretKey);
-    const vendor = await Vendor.findById(decoded.vendorId);
-
+    const vendor = await Vendor.findById(decoded.id);
     if (!vendor) {
-      return res.status(404).json({ error: "Vendor not found" });
+      return res.status(404).json({ message: 'Access Denied: Invalid Token' });
     }
 
-    req.vendorId = vendor._id;
-
+    req.vendor = vendor._id;
     next();
+    
+  } catch (message){
+    console.message(message)
 
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Invalid token" });
-  }
-};
+    return res.status(500).json({ message: 'Access Denied: Invalid Token' });
+}
+}
 
 module.exports = verifyToken;
