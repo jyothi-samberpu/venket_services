@@ -38,7 +38,7 @@ const verifyToken = async (req, res, next) => {
     next();
 
   } catch (error) {
-    console.error(error);
+    console.log(error); //fixed the typo console.log from console.err
     return res.status(401).json({
       message: 'Access Denied: Invalid Token'
     });

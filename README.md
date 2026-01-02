@@ -74,7 +74,7 @@ Create a `.env` file in the root directory:
 
 ```env
 PORT=4000
-MONGO_URI=your_mongodb_connection_string
+MONGO_URL=your_mongodb_connection_string
 WHATISYOURWORK=your_jwt_secret_key
 ```
 
